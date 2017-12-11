@@ -154,12 +154,13 @@ void ssh_exec(int sock,struct ssh_config & opt){
 
     libssh2_channel_exec(channel,opt.command.c_str());
 
-    char result[500] ="";
+    char result[1024] ="";
     std::string commandRes="";
-    while(libssh2_channel_read(channel,result,100) > 0){
+    while(libssh2_channel_read(channel,result,1000) > 0){
+        std::cout << result;
         commandRes+=result;
     }
-    std::cout << commandRes << std::endl;
+    std::cout << std::endl;
 }
 
 
@@ -281,7 +282,8 @@ int main(int argc,char * argv[]) {
     /**
      * 如果没有参数则输出帮助信息
      */
-    if(optind == 0){
+// std::cout << optind << std::endl;
+    if(optind < 5 ){
         help(argv[0]);
         exit(EXIT_FAILURE);
     }
